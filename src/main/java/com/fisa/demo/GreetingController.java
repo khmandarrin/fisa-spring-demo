@@ -14,6 +14,8 @@ public class GreetingController {
 
     private final GreetingService greetingService;
     private final FakerService fakerService;
+    private final MyFavoriteService myFavoriteService;
+    private final RandomPickerService randomPickerService;
 
     @GetMapping("/sample")
     public String getSample() {
@@ -25,6 +27,25 @@ public class GreetingController {
         String fakerImageUrl = fakerService.getFakerImage();
         model.addAttribute("imageUrl", fakerImageUrl);
         return "faker";
+    }
+  
+    @GetMapping("/mandarrin")
+    public String getMandarrin(Model model) {
+        model.addAttribute("images", myFavoriteService.getImagePaths());
+        return "mandarrin";
+    }
+  
+    @GetMapping("/pick")
+    public String getRandomNamePick(Model model) {
+        String name = randomPickerService.pick();
+        model.addAttribute("name", name);
+        return "randomPick";
+    }
+
+    @GetMapping("/reroll")
+    @ResponseBody
+    public String getRandomNameReroll(Model model) {
+        return randomPickerService.pick();
     }
 }
 
