@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GreetingController {
 
     private final GreetingService greetingService;
+    private final MyFavoriteService myFavoriteService;
     private final RandomPickerService randomPickerService;
 
     @GetMapping("/sample")
@@ -21,6 +21,10 @@ public class GreetingController {
         return greetingService.sayGreeting();
     }
 
+    @GetMapping("/mandarrin")
+    public String getMandarrin(Model model) {
+        model.addAttribute("images", myFavoriteService.getImagePaths());
+        return "mandarrin";
     @GetMapping("/pick")
     public String getRandomNamePick(Model model) {
         String name = randomPickerService.pick();
